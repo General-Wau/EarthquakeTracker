@@ -5,7 +5,6 @@ data class Earthquake(
     val magnitude: String,
     val title: String,
     val date: String,
-    val time: String,
     val updated: String,
     val url: String,
     val tsunami: String,
