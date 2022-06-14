@@ -12,7 +12,5 @@ data class Earthquake(
     val latitude: String,
     val longitude: String,
     val place: String,
-    val country: String,
-    val subnational: String,
-    val city: String
+    val country: String
 )

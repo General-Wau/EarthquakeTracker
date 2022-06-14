@@ -1,5 +1,6 @@
 package com.necromyd.earthquakemonitor.network
 
+import com.necromyd.earthquakemonitor.BuildConfig
 import com.necromyd.earthquakemonitor.model.Earthquake
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,8 +9,8 @@ import retrofit2.http.Headers
 
 interface ApiService {
     @Headers(
-        "X-RapidAPI-Key: ff777014e6mshb47244daaee6ba8p1a17ebjsn5b30eda1f9c8",
-        "X-RapidAPI-Host: everyearthquake.p.rapidapi.com"
+        BuildConfig.key,
+        BuildConfig.address
     )
     @GET("earthquakes")
     suspend fun getEarthquakes(): List<Earthquake>

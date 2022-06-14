@@ -8,7 +8,6 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-/.app/src/main/java/com/necromyd/earthquakemonitor/network/ApiService.kt
 .DS_Store
 /build
 /captures
@@ -102,3 +101,5 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 >>>>>>> 99a8d3e4156fa57c9bdf0e1a28a869ef1924ace5
+
+apikey.properties

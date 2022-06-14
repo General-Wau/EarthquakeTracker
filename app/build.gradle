@@ -6,6 +6,10 @@ plugins {
 android {
     compileSdk 32
 
+    def apikeyPropertiesFile = rootProject.file("apikey.properties")
+    def apikeyProperties = new Properties()
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
     defaultConfig {
         applicationId "com.necromyd.earthquakemonitor"
         minSdk 28
@@ -17,6 +21,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        // should correspond to key/value pairs inside the file
+        buildConfigField("String", "key", apikeyProperties['key'])
+        buildConfigField("String", "address", apikeyProperties['address'])
     }
 
     buildTypes {
@@ -67,6 +75,5 @@ dependencies {
 
     // coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
-
 
 }

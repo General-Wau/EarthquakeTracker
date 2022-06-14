@@ -11,18 +11,15 @@ import kotlin.reflect.KProperty
 
 class EarthquakeViewModel : ViewModel() {
 
-    var earthquakeResponse: List<Earthquake> by mutableStateOf(listOf())
-    var savedEarthquake: List<Earthquake> by mutableStateOf(listOf())
-    var earthquakeList: MutableList<Earthquake> = mutableListOf()
-
-    var errorMessage: String by mutableStateOf("")
+    private val repository: Repository by mutableStateOf(Repository())
+    private var errorMessage: String by mutableStateOf("")
 
     fun getEarthquakeList() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
             try {
                 val earthquakeList = apiService.getEarthquakes()
-                earthquakeResponse = earthquakeList
+                repository.earthquakeList = earthquakeList
             } catch (e: Exception) {
                 errorMessage = e.message.toString()
             }
@@ -30,8 +27,7 @@ class EarthquakeViewModel : ViewModel() {
     }
 
     fun saveEarthquake(earthquake: Earthquake) {
-        earthquakeList.add(earthquake)
-        savedEarthquake = earthquakeList
+        repository.savedEarthquakeList.add(earthquake)
     }
 }
 
