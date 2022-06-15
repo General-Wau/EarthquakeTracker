@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -16,7 +18,8 @@ import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
 
 class MainActivity : ComponentActivity() {
 
-    val earthquakeViewModel by viewModels<EarthquakeViewModel>()
+    private val earthquakeViewModel by viewModels<EarthquakeViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,22 +30,38 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    earthquakeViewModel.getEarthquakeList()
+                    test()
+                    ErrorMessage()
+//                    Navigation(
+//                        viewModel = earthquakeViewModel
+//                    )
                 }
+
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    @Composable
+    fun ErrorMessage() {
+        Text(earthquakeViewModel.errorMessage)
+    }
+
+    @Composable
+    fun test() {
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(earthquakeViewModel.repository.earthquakeList) { earthquake ->
+                Text(text = earthquake.title)
+            }
+        }
+
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     EarthquakeMonitorTheme {
-        Greeting("Android")
+
     }
 }

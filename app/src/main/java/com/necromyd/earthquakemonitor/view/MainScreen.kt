@@ -1,74 +1,57 @@
 package com.necromyd.earthquakemonitor.view
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.necromyd.earthquakemonitor.WindowSize
 import com.necromyd.earthquakemonitor.WindowType
 import com.necromyd.earthquakemonitor.model.Earthquake
+import com.necromyd.earthquakemonitor.rememberWindowSize
+import com.necromyd.earthquakemonitor.ui.theme.EarthquakeMonitorTheme
+import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
 
 @Composable
 fun EarthquakeDisplay(windowSize: WindowSize, earthquake: Earthquake) {
-    
-    if (windowSize.width == WindowType.Expanded) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = earthquake.title)
-                Text(text = earthquake.country)
-                Text(text = earthquake.place)
-            }
-            
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(text = earthquake.date)
-                Text(text = earthquake.magnitude)
-                Text(text = earthquake.tsunami)
-                Text(text = earthquake.depth)
-            }
-        }
-        
-        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-            Button(onClick = { /*send earthquake.url to browser*/ }) {
-                Text(text = "View online")
-            }
-            Button(onClick = { /*send latitude and longitude to google map activity*/ }) {
-                Text(text = "Check Location")
-            }
-            Button(onClick = { /*add to list of saved earthquakes*/ }) {
-                Text(text = "Save to List")
-            }
-        }
-    } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
 
-            Text(text = earthquake.title)
-            Text(text = earthquake.date)
-            Text(text = earthquake.magnitude)
-            Text(text = earthquake.tsunami)
-            Text(text = earthquake.depth)
-            Text(text = earthquake.country)
-            Text(text = earthquake.place)
+    Surface() {
+        if (windowSize.width == WindowType.Expanded) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = earthquake.title)
+                    Text(text = earthquake.country)
+                    Text(text = earthquake.place)
+                }
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(text = earthquake.date)
+                    Text(text = earthquake.magnitude)
+                    Text(text = earthquake.tsunami)
+                    Text(text = earthquake.depth)
+                }
+            }
 
             Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                 Button(onClick = { /*send earthquake.url to browser*/ }) {
@@ -81,13 +64,104 @@ fun EarthquakeDisplay(windowSize: WindowSize, earthquake: Earthquake) {
                     Text(text = "Save to List")
                 }
             }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                Text(text = earthquake.title)
+                Text(text = earthquake.date)
+                Text(text = earthquake.magnitude)
+                Text(text = earthquake.tsunami)
+                Text(text = earthquake.depth)
+                Text(text = earthquake.country)
+                Text(text = earthquake.place)
+
+                Row(horizontalArrangement = Arrangement.SpaceAround) {
+                    Button(onClick = { /*send earthquake.url to browser*/ }) {
+                        Text(text = "View online")
+                    }
+                    Button(onClick = { /*send latitude and longitude to google map activity*/ }) {
+                        Text(text = "Check Location")
+                    }
+                    Button(onClick = { /*add to list of saved earthquakes*/ }) {
+                        Text(text = "Save to List")
+                    }
+                }
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NavigationMenu() {
-    
+fun MainScreenBottomSheet(
+    navController: NavController,
+    windowSize: WindowSize,
+    viewModel: EarthquakeViewModel
+) {
+    val sheetState = rememberBottomSheetState(
+        initialValue = BottomSheetValue.Collapsed,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy
+        )
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetState
+    )
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
+                        .clickable { }
+                ) {
+                    items(viewModel.repository.savedEarthquakeList) { earthquake ->
+                        Text(text = earthquake.title)
+                        Text(text = earthquake.date)
+                        Text(text = earthquake.place)
+                    }
+                }
+            }
+        },
+        sheetBackgroundColor = Color.Green,
+        sheetPeekHeight = 10.dp // sets how much closed sheet is visible
+    ) {
+        EarthquakeDisplay(
+            windowSize = windowSize,
+            earthquake = viewModel.repository.earthquakeList[0]
+        )
+    }
+}
+
+
+@Preview
+@Composable
+fun previewMainScreen() {
+    EarthquakeMonitorTheme {
+        val windowSize = rememberWindowSize()
+        val viewModel = EarthquakeViewModel()
+        val navController = rememberNavController()
+        Surface(modifier = Modifier.fillMaxSize()) {
+            MainScreenBottomSheet(
+                navController,
+                windowSize = windowSize,
+                viewModel
+            )
+        }
+    }
 }
 
 /** PLAN
