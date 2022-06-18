@@ -128,21 +128,21 @@ fun MainScreenBottomSheet(
                         .padding(15.dp)
                         .clickable { }
                 ) {
-                    items(viewModel.repository.savedEarthquakeList) { earthquake ->
-                        Text(text = earthquake.title)
-                        Text(text = earthquake.date)
-                        Text(text = earthquake.place)
-                    }
+//                    items(viewModel.savedEarthquakeList) { earthquake ->
+//                        Text(text = earthquake.title)
+//                        Text(text = earthquake.date)
+//                        Text(text = earthquake.place)
+//                    }
                 }
             }
         },
         sheetBackgroundColor = Color.Green,
         sheetPeekHeight = 10.dp // sets how much closed sheet is visible
     ) {
-        EarthquakeDisplay(
-            windowSize = windowSize,
-            earthquake = viewModel.repository.earthquakeList[0]
-        )
+//        EarthquakeDisplay(
+//            windowSize = windowSize,
+//            earthquake = viewModel.earthquakeList[0]
+//        )
     }
 }
 
