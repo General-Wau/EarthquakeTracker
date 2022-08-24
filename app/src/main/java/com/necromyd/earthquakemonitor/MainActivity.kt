@@ -26,16 +26,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var text by remember {
-                mutableStateOf("")
-            }
             EarthquakeMonitorTheme {
-                // A surface container using the 'background' color from the theme
                 val earthquakeViewModel = viewModel(EarthquakeViewModel::class.java)
-                test(earthquakeViewModel.stateList)
-//                    Navigation(
-//                        viewModel = earthquakeViewModel
-//                    )
+//                test(earthquakeViewModel.stateList)
+                    Navigation(
+                        viewModel = earthquakeViewModel
+                    )
 
 
             }
@@ -61,7 +57,19 @@ class MainActivity : ComponentActivity() {
                 }
             } else {
                 items(stateList) { earthquake: Earthquake ->
-                    Text(text = earthquake.title)
+                    if (earthquake.magnitude.toDouble() >= 5){
+                        Text(text = earthquake.title)
+                        Text(text = earthquake.date)
+                        if (earthquake.country != ""){
+                            Text(text = earthquake.country)
+                        }else {
+                            Text("N/A")
+                        }
+                        Spacer(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(10.dp))
+                    }
+                    
                 }
             }
         }
