@@ -14,7 +14,7 @@ fun Navigation(viewModel: EarthquakeViewModel) {
     val windowSize = rememberWindowSize()
     NavHost(navController = navController, startDestination = MainScreen.route) {
         composable(MainScreen.route) {
-            EarthquakeDisplay(windowSize = windowSize, viewModel = viewModel)
+            EarthquakeDisplay(windowSize = windowSize, viewModel = viewModel, navController = navController)
 //            MainScreenBottomSheet(
 //                navController = navController,
 //                windowSize = windowSize,
