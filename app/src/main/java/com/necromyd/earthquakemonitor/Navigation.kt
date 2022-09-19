@@ -15,11 +15,6 @@ fun Navigation(viewModel: EarthquakeViewModel) {
     NavHost(navController = navController, startDestination = MainScreen.route) {
         composable(MainScreen.route) {
             EarthquakeDisplay(windowSize = windowSize, viewModel = viewModel, navController = navController)
-//            MainScreenBottomSheet(
-//                navController = navController,
-//                windowSize = windowSize,
-//                viewModel = viewModel
-//            )
         }
         composable(CustomQueryScreen.route) {
             CustomQueryScreenComposable()
