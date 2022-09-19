@@ -16,9 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.necromyd.earthquakemonitor.Screen
 import com.necromyd.earthquakemonitor.WindowSize
 import com.necromyd.earthquakemonitor.WindowType
-import com.necromyd.earthquakemonitor.model.Earthquake
 import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
 import kotlinx.coroutines.launch
 
@@ -29,7 +29,6 @@ fun EarthquakeDisplay(
     windowSize: WindowSize,
     viewModel: EarthquakeViewModel
 ) {
-    var quakeState : Earthquake
     if (viewModel.stateList.isEmpty()) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -43,7 +42,7 @@ fun EarthquakeDisplay(
             )
         }
     } else {
-        EarthquakeBottomSheetScaffold(windowSize, viewModel)
+        EarthquakeBottomSheetScaffold(navController, windowSize, viewModel)
     }
 
 }
@@ -51,6 +50,7 @@ fun EarthquakeDisplay(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EarthquakeBottomSheetScaffold(
+    navController: NavController,
     windowSize: WindowSize,
     viewModel: EarthquakeViewModel
 ) {
@@ -155,8 +155,12 @@ fun EarthquakeBottomSheetScaffold(
                         }) {
                             Text(text = "View online")
                         }
-                        Button(onClick = { /*send latitude and longitude to google map activity*/ }) {
-                            Text(text = "Show Location")
+                        Button(onClick = {
+                            navController.navigate(Screen.MainScreen.route){
+                                popUpTo(0)
+                            }
+                        }) {
+                            Text(text = "Refresh")
                         }
                     }
                 }
@@ -168,13 +172,18 @@ fun EarthquakeBottomSheetScaffold(
                     verticalArrangement = Arrangement.Center
                 ) {
 
+
+
+
                     Text(text = quakeState.value.title)
-                    Text(text = quakeState.value.date)
-                    Text(text = quakeState.value.magnitude)
-                    Text(text = quakeState.value.tsunami)
-                    Text(text = quakeState.value.depth)
-                    Text(text = quakeState.value.country)
-                    Text(text = quakeState.value.place)
+                    var dateArray = formatDate(quakeState.value.date)
+                    Text(text = dateArray[0])
+                    Text(text = dateArray[1])
+                    Text(text = "Magnitude : " + quakeState.value.magnitude)
+                    Text(text = "Tsunami warning: " + quakeState.value.tsunami)
+                    Text(text = "Depth: " + quakeState.value.depth)
+                    Text(text = "Country: " + quakeState.value.country)
+                    Text(text = "Location : " + quakeState.value.place)
 
                     Row(horizontalArrangement = Arrangement.SpaceAround) {
 
@@ -184,9 +193,6 @@ fun EarthquakeBottomSheetScaffold(
                             context.startActivity(intent)
                         }) {
                             Text(text = "View online")
-                        }
-                        Button(onClick = { /*send latitude and longitude to google map activity*/ }) {
-                            Text(text = "Check Location")
                         }
                     }
                     Button(onClick = {
@@ -200,31 +206,30 @@ fun EarthquakeBottomSheetScaffold(
                     }) {
                         Text(text = "Show More")
                     }
+                    Button(onClick = {
+                        navController.navigate(Screen.MainScreen.route){
+                            popUpTo(0)
+                        }
+                    }) {
+                        Text(text = "Refresh")
+                    }
                 }
             }
         }
     }
 }
 
+fun formatDate(input: String): Array<String> {
+    var data = input.removeSurrounding("[", "]")
+    val split = data.split("T")
+    var date = split[0]
+    var time = split[1]
 
+    date = "Date : $date"
+    time = "Time : $time"
 
-//@Preview
-//@Composable
-//fun previewMainScreen() {
-//    EarthquakeMonitorTheme {
-//        val windowSize = rememberWindowSize()
-//        val viewModel = EarthquakeViewModel()
-//        val navController = rememberNavController()
-//        Surface(modifier = Modifier.fillMaxSize()) {
-//            EarthquakeDisplay(
-//                navController,
-//                windowSize = windowSize,
-//                viewModel
-//            )
-//        }
-//    }
-//}
-
+    return arrayOf(date, time)
+}
 
 /** PLAN
  * Main screen should have Navigation drawer at the top with buttons for "this screen" , "custom get request" , "map screen" , "app options"
