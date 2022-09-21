@@ -18,10 +18,23 @@ import kotlin.reflect.KProperty
 class EarthquakeViewModel : ViewModel() {
 
     val stateList = mutableStateListOf<Earthquake>()
+    val customList = mutableStateListOf<Earthquake>()
 
     init {
         viewModelScope.launch {
             getEarthquakeList()
+        }
+    }
+
+    private fun getCustomEarthquake(filter: HashMap<String, String>){
+        viewModelScope.launch {
+            val apiService = ApiService.getInstance()
+            try {
+                val response = apiService.getCustomEarthquake(filter)
+                customList.addAll(response.data)
+            }catch (e: Exception){
+
+            }
         }
     }
 
@@ -39,8 +52,6 @@ class EarthquakeViewModel : ViewModel() {
         }
     }
 
-//    fun saveEarthquake(earthquake: Earthquake) {
-//        savedEarthquakeList.add(earthquake)
-//    }
+
 }
 

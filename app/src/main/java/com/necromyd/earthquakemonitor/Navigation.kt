@@ -19,9 +19,6 @@ fun Navigation(viewModel: EarthquakeViewModel) {
         composable(CustomQueryScreen.route) {
             CustomQueryScreenComposable()
         }
-        composable(MapScreen.route) {
-            MapScreenComposable()
-        }
         composable(SettingsScreen.route) {
             SettingsScreenComposable()
         }
