@@ -27,11 +27,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EarthquakeMonitorTheme {
+                //                test(earthquakeViewModel.stateList)
                 val earthquakeViewModel = viewModel(EarthquakeViewModel::class.java)
-//                test(earthquakeViewModel.stateList)
-                    Navigation(
-                        viewModel = earthquakeViewModel
-                    )
+                Navigation(
+                    viewModel = earthquakeViewModel
+                )
 
 
             }
@@ -45,8 +45,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun test(stateList: List<Earthquake>) {
-        Log.d("Item in the list :", stateList.isEmpty().toString()?: stateList[0].title)
-        LazyColumn (modifier = Modifier.fillMaxSize()){
+        Log.d("Item in the list :", stateList.isEmpty().toString() ?: stateList[0].title)
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
             if (stateList.isEmpty()) {
                 item {
                     CircularProgressIndicator(
@@ -57,19 +57,21 @@ class MainActivity : ComponentActivity() {
                 }
             } else {
                 items(stateList) { earthquake: Earthquake ->
-                    if (earthquake.magnitude.toDouble() >= 5){
+                    if (earthquake.magnitude.toDouble() >= 5) {
                         Text(text = earthquake.title)
                         Text(text = earthquake.date)
-                        if (earthquake.country != ""){
+                        if (earthquake.country != "") {
                             Text(text = earthquake.country)
-                        }else {
+                        } else {
                             Text("N/A")
                         }
-                        Spacer(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(10.dp))
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(10.dp)
+                        )
                     }
-                    
+
                 }
             }
         }

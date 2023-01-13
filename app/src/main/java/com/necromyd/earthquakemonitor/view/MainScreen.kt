@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,6 +46,17 @@ fun EarthquakeDisplay(
         EarthquakeBottomSheetScaffold(navController, windowSize, viewModel)
     }
 
+}
+
+@Composable
+fun TopAppBar() {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(150.dp)
+        .background(MaterialTheme.colors.primary),
+    ) {
+
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
