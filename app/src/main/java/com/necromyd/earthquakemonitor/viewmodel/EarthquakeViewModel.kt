@@ -53,5 +53,8 @@ class EarthquakeViewModel : ViewModel() {
     }
 
 
+    fun sumulatedCrash (){
+        var num = 2/0
+    }
 }
 

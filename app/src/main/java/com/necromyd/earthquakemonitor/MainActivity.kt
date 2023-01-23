@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import com.necromyd.earthquakemonitor.model.Earthquake
 import com.necromyd.earthquakemonitor.ui.theme.EarthquakeMonitorTheme
 import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
@@ -25,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        AppCenter.start(application, "438bf1a8-a6d2-499b-a834-6851711eac18", Analytics::class.java, Crashes::class.java)
+
         setContent {
             EarthquakeMonitorTheme {
                 //                test(earthquakeViewModel.stateList)

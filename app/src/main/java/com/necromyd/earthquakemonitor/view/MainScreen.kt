@@ -17,11 +17,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import com.necromyd.earthquakemonitor.Screen
 import com.necromyd.earthquakemonitor.WindowSize
 import com.necromyd.earthquakemonitor.WindowType
 import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 
 @Composable
@@ -168,9 +171,12 @@ fun EarthquakeBottomSheetScaffold(
                             Text(text = "View online")
                         }
                         Button(onClick = {
-                            navController.navigate(Screen.MainScreen.route){
+                            navController.navigate(Screen.MainScreen.route)
+                            {
                                 popUpTo(0)
                             }
+//                            Crashes.generateTestCrash()
+                            Analytics.trackEvent("Refresh button was clicked !")
                         }) {
                             Text(text = "Refresh")
                         }
