@@ -176,7 +176,7 @@ fun EarthquakeBottomSheetScaffold(
                                 popUpTo(0)
                             }
 //                            Crashes.generateTestCrash()
-                            Analytics.trackEvent("Refresh button was clicked !")
+//                            Analytics.trackEvent("Refresh button was clicked !")
                         }) {
                             Text(text = "Refresh")
                         }

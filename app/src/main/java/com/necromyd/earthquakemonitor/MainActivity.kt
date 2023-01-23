@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         AppCenter.start(application, "438bf1a8-a6d2-499b-a834-6851711eac18", Analytics::class.java, Crashes::class.java)
+    Crashes.setEnabled(true)
 
         setContent {
             EarthquakeMonitorTheme {
