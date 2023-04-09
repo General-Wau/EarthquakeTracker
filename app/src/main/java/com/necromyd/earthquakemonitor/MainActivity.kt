@@ -21,6 +21,7 @@ import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.necromyd.earthquakemonitor.model.Earthquake
 import com.necromyd.earthquakemonitor.ui.theme.EarthquakeMonitorTheme
+import com.necromyd.earthquakemonitor.view.PrimaryScreen
 import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
 
 class MainActivity : ComponentActivity() {
@@ -29,66 +30,61 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppCenter.start(application, "438bf1a8-a6d2-499b-a834-6851711eac18", Analytics::class.java, Crashes::class.java)
-    Crashes.setEnabled(true)
-
         setContent {
             EarthquakeMonitorTheme {
-                //                test(earthquakeViewModel.stateList)
                 val earthquakeViewModel = viewModel(EarthquakeViewModel::class.java)
-                Navigation(
-                    viewModel = earthquakeViewModel
-                )
-
-
+                PrimaryScreen(earthquakeViewModel)
+//                Navigation(
+//                    viewModel = earthquakeViewModel
+//                )
             }
         }
     }
+}
 
 //    @Composable
 //    fun ErrorMessage(viewModel: EarthquakeViewModel) {
 //        Text(viewModel.errorMessage)
 //    }
 
-    @Composable
-    fun test(stateList: List<Earthquake>) {
-        Log.d("Item in the list :", stateList.isEmpty().toString() ?: stateList[0].title)
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            if (stateList.isEmpty()) {
-                item {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.Center)
-                    )
-                }
-            } else {
-                items(stateList) { earthquake: Earthquake ->
-                    if (earthquake.magnitude.toDouble() >= 5) {
-                        Text(text = earthquake.title)
-                        Text(text = earthquake.date)
-                        if (earthquake.country != "") {
-                            Text(text = earthquake.country)
-                        } else {
-                            Text("N/A")
-                        }
-                        Spacer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(10.dp)
-                        )
-                    }
-
-                }
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    EarthquakeMonitorTheme {
-
-    }
-}
+//    @Composable
+//    fun test(stateList: List<Earthquake>) {
+//        Log.d("Item in the list :", stateList.isEmpty().toString() ?: stateList[0].title)
+//        LazyColumn(modifier = Modifier.fillMaxSize()) {
+//            if (stateList.isEmpty()) {
+//                item {
+//                    CircularProgressIndicator(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .wrapContentSize(Alignment.Center)
+//                    )
+//                }
+//            } else {
+//                items(stateList) { earthquake: Earthquake ->
+//                    if (earthquake.magnitude.toDouble() >= 5) {
+//                        Text(text = earthquake.title)
+//                        Text(text = earthquake.date)
+//                        if (earthquake.country != "") {
+//                            Text(text = earthquake.country)
+//                        } else {
+//                            Text("N/A")
+//                        }
+//                        Spacer(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .height(10.dp)
+//                        )
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    EarthquakeMonitorTheme {
+//
+//    }

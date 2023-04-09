@@ -5,4 +5,5 @@ sealed class Screen(val route: String) {
     object CustomQueryScreen : Screen("CustomQueryScreenRoute")
     object MapScreen : Screen("MapScreenRoute")
     object SettingsScreen : Screen("SettingsScreenRoute")
+    object PrimaryScreen : Screen("PrimaryScreen")
 }

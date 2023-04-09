@@ -12,15 +12,15 @@ import com.necromyd.earthquakemonitor.view.*
 fun Navigation(viewModel: EarthquakeViewModel) {
     val navController = rememberNavController()
     val windowSize = rememberWindowSize()
-    NavHost(navController = navController, startDestination = MainScreen.route) {
-        composable(MainScreen.route) {
-            EarthquakeDisplay(windowSize = windowSize, viewModel = viewModel, navController = navController)
+    NavHost(navController = navController, startDestination = PrimaryScreen.route) {
+        composable(PrimaryScreen.route) {
+//            Screen.MainScreen(viewModel)
         }
-        composable(CustomQueryScreen.route) {
-            CustomQueryScreenComposable()
-        }
-        composable(SettingsScreen.route) {
-            SettingsScreenComposable()
-        }
+//        composable(CustomQueryScreen.route) {
+//            CustomQueryScreenComposable()
+//        }
+//        composable(SettingsScreen.route) {
+//            SettingsScreenComposable()
+//        }
     }
 }
