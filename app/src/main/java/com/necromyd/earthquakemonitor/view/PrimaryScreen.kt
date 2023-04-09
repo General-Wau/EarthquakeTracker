@@ -24,16 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.necromyd.earthquakemonitor.BuildConfig
+import com.necromyd.earthquakemonitor.BuildConfig.aKey
 import com.necromyd.earthquakemonitor.viewmodel.EarthquakeViewModel
-
-private val aKey = BuildConfig.aKey
-private lateinit var lat : String
-private lateinit var lon : String
-private lateinit var zoom : String
-private lateinit var size : String // width and height of the image in this String format : "${width}x$height" , x must be present
-
-private val url = "https://maps.googleapis.com/maps/api/staticmap?center=$lat" +
-        ",$lon&zoom=$zoom&size=$size&markers=color:red%7Clabel:A%7C$lat,$lon&key=$aKey"
 
 @Composable
 fun PrimaryScreen(viewModel: EarthquakeViewModel) {
@@ -187,9 +179,7 @@ fun LatestEarthquake(viewModel: EarthquakeViewModel) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                if (url != null) {
-                    MapImageView(url = url)
-                }
+                quakeState?.let { OpenStreetMapSnapshot(it.latitude, it.longitude) }
 
                 TextButton(onClick = {
                     context.startActivity(intent)
@@ -214,15 +204,28 @@ fun LatestEarthquake(viewModel: EarthquakeViewModel) {
 }
 
 @Composable
-fun MapImageView(
-    url: String
-) {
-    Image(
-        painter = rememberImagePainter(url),
-        contentDescription = "Google snapshot of the location",
+fun OpenStreetMapSnapshot(lat: String, lon: String) {
+    val aKey = BuildConfig.aKey
+    val zoom = "6"
+    val imageUrl = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s-l+000" +
+            "($lon,$lat)/$lon,$lat,$zoom,0/300x300?access_token=$aKey"
+
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 4.dp,
+        backgroundColor = Color.White,
         modifier = Modifier
-            .aspectRatio(1f) // Set the aspect ratio of the image
-            .fillMaxWidth(), // Set the width to fill the available space
-        contentScale = ContentScale.FillWidth // Scale the image to fill the width
-    )
+            .fillMaxWidth()
+            .height(300.dp)
+    ) {
+        Image(
+            painter = rememberImagePainter(
+                data = imageUrl,
+                builder = {}
+            ),
+            contentDescription = "Map snapshot",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+    }
 }

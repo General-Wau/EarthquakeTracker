@@ -25,6 +25,7 @@ android {
         // should correspond to key/value pairs inside the file
         buildConfigField("String", "key", apikeyProperties['key'])
         buildConfigField("String", "address", apikeyProperties['address'])
+        buildConfigField("String", "aKey", apikeyProperties['aKey'])
     }
 
     buildTypes {
