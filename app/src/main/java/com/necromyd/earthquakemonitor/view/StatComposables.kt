@@ -50,16 +50,21 @@ fun Top5InLast24h(viewModel: EarthquakeViewModel) {
                         .clickable { viewModel.selectedQuakeToPreview(quake) },
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        text = quake.magnitude,
-                        fontSize = 20.sp,
-                        color = viewModel.getMagnitudeColor(quake.magnitude.toDouble())
-                    )
-                    Text(
-                        text = quake.place,
-                        fontSize = 16.sp,
-                        color = MaterialTheme.colors.background
-                    )
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = quake.magnitude,
+                            fontSize = 20.sp,
+                            color = viewModel.getMagnitudeColor(quake.magnitude.toDouble())
+                        )
+                    }
+                    Column(modifier = Modifier.weight(4f)) {
+                        Text(
+                            text = quake.place,
+                            fontSize = 16.sp,
+                            color = MaterialTheme.colors.background
+                        )
+                    }
+
                 }
 
             }
