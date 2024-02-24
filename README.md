@@ -3,7 +3,7 @@
 An Android application that downloads newest earthquake JSON data from the server, formats and displays it. 
 OpenStreetMap is used for location shots.
 
-Uses Retrofit2, Jetpack Compose, Kotlin, Navigation.
+Uses Retrofit2, Jetpack Compose, Kotlin, MVVM, Navigation.
 
 Screentshots :
 
